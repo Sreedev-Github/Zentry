@@ -91,6 +91,19 @@ body {
     will-change: opacity, transform;
   }
 
+  .changing-bg {
+    @apply bg-black;
+    will-change: background-color;
+  }
+  .changing-text-story {
+    @apply text-violet-50;
+    will-change: color;
+  }
+  .changing-btn-story {
+    @apply text-violet-50 text-black;
+    will-change: background-color, color;
+  }
+
   .bento-tilt_1 {
     @apply relative border-hsla col-span-2 overflow-hidden rounded-md transition-transform duration-300 ease-out;
   }

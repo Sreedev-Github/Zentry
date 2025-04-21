@@ -1,12 +1,28 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
-const AnimatedTitle = ({ title, containerClass }) => {
+const AnimatedTitle = ({ title, containerClass, left = false }) => {
   const containerRef = useRef(null);
 
   useEffect(() => {
     // ctx is short for context
     const ctx = gsap.context(() => {
+      // Set initial position based on the left prop
+      if (left) {
+        gsap.set(".animated-word", {
+          opacity: 0,
+          transform:
+            "translate3d(-100px, 51px, -60px) rotateY(-60deg) rotateX(-40deg)",
+        });
+      } else {
+        // Default right-to-left animation setup
+        gsap.set(".animated-word", {
+          opacity: 0,
+          transform:
+            "translate3d(10px, 51px, -60px) rotateY(60deg) rotateX(-40deg)",
+        });
+      }
+
       const titleAnimation = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -31,7 +47,7 @@ const AnimatedTitle = ({ title, containerClass }) => {
     return () => {
       ctx.revert();
     }; // Cleanup function to revert the context
-  }, []);
+  }, [left]);
 
   return (
     <div ref={containerRef} className={`animated-title ${containerClass}`}>
