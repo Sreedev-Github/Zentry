@@ -1,150 +1,219 @@
 import React, { useRef, useEffect } from "react";
-import AnimatedTitle from "./AnimatedTitle";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import AnimatedTitle from "./AnimatedTitle";
 import Button from "./Button";
 
-// Make sure to register the plugin
 gsap.registerPlugin(ScrollTrigger);
 
+const texts = [
+  {
+    number: "01",
+    title: "Shaping Zentry Collectively",
+    text: "Participate in governance, influence key decisions in the ever-growing Zentry Universe that is limited only by people's imaginations",
+  },
+  {
+    number: "02",
+    title: "Unlocking Economic Opportunity",
+    text: "ZENT, a commodity-based currency that unlocks exclusive benefits, airdrops, quotas, and co-creation within and beyond Zentry ecosystem.",
+  },
+  {
+    number: "03",
+    title: "Sharing Value Accrued",
+    text: "ZENT holders thrive as Zentry grows, benefiting from the expansive partnerships, treasury investment and economic activities.",
+  },
+];
+
 const NewSection = () => {
+  const containerRef = useRef(null);
+  const titleContainerRef = useRef(null);
   const textRef = useRef(null);
-  const sectionRef = useRef(null);
+  const contentRefs = useRef([]);
+  const indicatorRefs = useRef([]);
 
   useEffect(() => {
-    // Color change effect based on scroll position
+    // Clear previous animations
+
+    // Create a timeline for the accordion
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "+=3000", // Adjust based on content height
+        scrub: true,
+        pin: true,
+        anticipatePin: 1,
+      },
+    });
+
+    texts.forEach((_, index) => {
+      const content = contentRefs.current[index];
+      const indicator = indicatorRefs.current[index];
+
+      // Set initial state
+      gsap.set(content, { height: 0, opacity: 0, display: "none" });
+      gsap.set(indicator, { height: "0%" });
+
+      // Expand
+      tl.to(content, {
+        height: "auto",
+        opacity: 1,
+        display: "flex",
+        duration: 0.5,
+        ease: "power2.out",
+      });
+      tl.to(
+        indicator,
+        {
+          height: "100%",
+          duration: 0.5,
+          ease: "power2.out",
+        },
+        "-=0.5"
+      );
+
+      // Hold
+      tl.to({}, { duration: 0.5 });
+
+      // Collapse
+      tl.to(content, {
+        height: 0,
+        opacity: 0,
+        display: "none",
+        duration: 0.5,
+        ease: "power2.inOut",
+      });
+      tl.to(
+        indicator,
+        {
+          height: "0%",
+          duration: 0.5,
+          ease: "power2.inOut",
+        },
+        "-=0.5"
+      );
+    });
+
+    // Background color change logic
     const handleScroll = () => {
-      if (textRef.current) {
-        // Check if 50% of the element is in viewport
-        if (ScrollTrigger.isInViewport(textRef.current, 0.5)) {
-          // Target all elements with changing-bg class
-          gsap.to(".changing-bg", {
-            backgroundColor: "#EDFF66",
-            duration: 0.4,
-          });
-
-          // Change story text
-          gsap.to(".changing-text-story", {
-            color: "black",
-            duration: 0.4,
-          });
-
-          gsap.to(".changing-btn-story", {
-            color: "white",
-            backgroundColor: "black",
-            duration: 0.4,
-          });
-        } else {
-          // Return all changing-bg elements back to their color
-          gsap.to(".changing-bg", {
-            backgroundColor: "black",
-            duration: 0.4,
-          });
-          gsap.to(".changing-text-story", {
-            color: "white", // Changed from "text-violet-50" to actual CSS color
-            duration: 0.4,
-          });
-          gsap.to(".changing-btn-story", {
-            color: "black",
-            backgroundColor: "white", // Changed from "text-violet-50" to actual CSS color
-            duration: 0.4,
-          });
-        }
+      if (textRef.current && ScrollTrigger.isInViewport(textRef.current, 0.5)) {
+        gsap.to(".changing-bg", { backgroundColor: "#EDFF66", duration: 0.4 });
+        gsap.to(".changing-text", { color: "black", duration: 0.4 });
+        gsap.to(".changing-btn", {
+          color: "white",
+          backgroundColor: "black",
+          duration: 0.4,
+        });
+        // Target the specific animated words in this section
+        gsap.to(".section-title .animated-word", {
+          color: "black",
+          duration: 0.4,
+          overwrite: "auto",
+        });
+      } else {
+        gsap.to(".changing-bg", { backgroundColor: "black", duration: 0.4 });
+        gsap.to(".changing-text", { color: "white", duration: 0.4 });
+        gsap.to(".changing-btn", {
+          color: "black",
+          backgroundColor: "white",
+          duration: 0.4,
+        });
+        // Target the specific animated words in this section
+        gsap.to(".section-title .animated-word", {
+          color: "white",
+          duration: 0.4,
+          overwrite: "auto",
+        });
       }
     };
 
-    // Create pin effect for scroll hijacking
-    if (sectionRef.current) {
-      // Create the pin effect using ScrollTrigger
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top", // Start pinning when top of section hits top of viewport
-        end: "+=300%", // Pin for 300% of the section's height
-        pin: true, // Enable pinning
-        pinSpacing: true, // Maintain the original height
-        scrub: 1, // Smooth scrubbing effect with 1 second lag
-        onEnter: () => {
-          // When entering the section
-          gsap.to(".changing-bg", {
-            backgroundColor: "#EDFF66",
-            duration: 0.4,
-          });
-        },
-        onLeaveBack: () => {
-          // When scrolling back up out of the section
-          gsap.to(".changing-bg", {
-            backgroundColor: "black",
-            duration: 0.4,
-          });
-        },
-      });
-
-      // Create a scroll indicator animation that fills based on scroll progress
-      gsap.to(".scroll-indicator-fill", {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "+=300%",
-          scrub: true,
-        },
-        height: "100%",
-        ease: "power2.out",
-      });
-    }
-
-    // Add the scroll event listener for color changes
     window.addEventListener("scroll", handleScroll);
-
-    // Initial check in case element is already in view when page loads
     handleScroll();
 
-    // Clean up the event listener and ScrollTrigger instances
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      ScrollTrigger.getAll().forEach((t) => t.kill());
     };
+  }, []);
+
+  useEffect(() => {
+    // Debug logging for animation targeting
+    console.log(
+      "Section title elements found:",
+      document.querySelectorAll(".section-title .animated-word").length
+    );
+
+    // Force initial state based on current background
+    setTimeout(() => {
+      const initialState = window.getComputedStyle(
+        containerRef.current
+      ).backgroundColor;
+      console.log("Initial background state:", initialState);
+
+      if (initialState.includes("0, 0, 0") || initialState === "black") {
+        // If background is black, make text white
+        gsap.set(".section-title .animated-word", { color: "white" });
+      }
+    }, 100);
   }, []);
 
   return (
     <div
-      ref={sectionRef}
-      className="relative changing-bg flex flex-row w-full h-screen"
+      ref={containerRef}
+      className="changing-bg flex flex-col w-full relative min-h-screen overflow-hidden px-6 md:px-[4.5rem]"
     >
-      <div className="flex flex-col text-left w-full h-full justify-between">
-        <div ref={textRef} className="space-y-8">
+      {/* Title Section */}
+      <div
+        ref={titleContainerRef}
+        className="flex flex-col text-left w-full justify-start py-10 z-10"
+      >
+        <div ref={textRef}>
           <AnimatedTitle
-            title="The Univ<b>e</b>rse <br/>Powered by Ze<b>n</b>t"
-            containerClass="mt-5 !text-black items-start text-left md:!-ml-24"
+            title="THE UNIVERSE <br/>POWERED BY ZENT"
+            containerClass="mt-5 section-title items-start text-left"
             left={true}
           />
           <Button
             id="realm-button"
             title="ENTER VAULT"
-            containerClass="ml-10 md:ml-[4.5rem] changing-btn-story"
+            containerClass="ml-10 md:ml-0 changing-btn"
           />
         </div>
+      </div>
 
-        <div className="flex flex-col items-start justify-center mb-40 gap-4">
-          <div className="flex flex-row gap-20 md:ml-[4.5rem] items-center">
-            <p className="font-general">01</p>
-            <p className="font-circular-web text-3xl">
-              Shaping Zentry Collectively
-            </p>
-          </div>
-          <div className="flex flex-row gap-20 md:ml-[4.5rem] items-center">
-            <div className="h-20 w-2 bg-gray-300 rounded-full overflow-hidden relative">
-              <div
-                className="absolute bottom-0 w-full bg-slate-900 rounded-full transition-all duration-100 ease-out scroll-indicator-fill"
-                style={{ height: "0%" }}
-              ></div>
+      {/* Text Blocks */}
+      <div className="flex flex-col gap-10 pt-16">
+        {texts.map((text, index) => (
+          <div key={index}>
+            {/* Header */}
+            <div className="flex items-center gap-4">
+              <p className="text-sm changing-text">{text.number}</p>
+              <p className="text-lg font-semibold changing-text">
+                {text.title}
+              </p>
             </div>
-            <p className="text-slate-900 w-96">
-              Participate in governance, influence key decisions in the
-              ever-growing Zentry Universe that is limited only by people's
-              imaginations
-            </p>
+
+            {/* Expandable Content */}
+            <div
+              ref={(el) => (contentRefs.current[index] = el)}
+              className="overflow-hidden flex items-start gap-6 mt-2"
+              style={{
+                height: 0,
+                opacity: 0,
+                display: "none",
+              }}
+            >
+              <div className="h-20 w-2 bg-gray-300 rounded-full overflow-hidden relative">
+                <div
+                  ref={(el) => (indicatorRefs.current[index] = el)}
+                  className="absolute bottom-0 w-full bg-black rounded-full"
+                  style={{ height: "0%" }}
+                ></div>
+              </div>
+              <p className="changing-text text-sm w-96">{text.text}</p>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
