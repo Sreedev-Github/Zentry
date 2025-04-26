@@ -6,6 +6,7 @@ import Features from "./components/Features";
 import Story from "./components/Story";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Vault from "./components/Vault";
 import NewSection from "./components/NewSection";
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
       <About />
       <Features />
       <Story />
+      <Vault />
       <NewSection />
       <Contact />
       <Footer />

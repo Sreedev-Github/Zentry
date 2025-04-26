@@ -100,7 +100,7 @@ body {
     will-change: color;
   }
   .changing-btn-story {
-    @apply text-violet-50 text-black;
+    @apply text-black;
     will-change: background-color, color;
   }
 
