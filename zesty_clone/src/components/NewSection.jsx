@@ -98,8 +98,8 @@ const NewSection = () => {
     const handleScroll = () => {
       if (textRef.current && ScrollTrigger.isInViewport(textRef.current, 0.5)) {
         gsap.to(".changing-bg", { backgroundColor: "#EDFF66", duration: 0.4 });
-        gsap.to(".changing-text", { color: "black", duration: 0.4 });
-        gsap.to(".changing-btn", {
+        gsap.to(".changing-text-story", { color: "black", duration: 0.4 });
+        gsap.to(".changing-btn-story", {
           color: "white",
           backgroundColor: "black",
           duration: 0.4,
@@ -112,8 +112,8 @@ const NewSection = () => {
         });
       } else {
         gsap.to(".changing-bg", { backgroundColor: "black", duration: 0.4 });
-        gsap.to(".changing-text", { color: "white", duration: 0.4 });
-        gsap.to(".changing-btn", {
+        gsap.to(".changing-text-story", { color: "white", duration: 0.4 });
+        gsap.to(".changing-btn-story", {
           color: "black",
           backgroundColor: "white",
           duration: 0.4,
@@ -170,19 +170,19 @@ const NewSection = () => {
         <div ref={textRef}>
           <AnimatedTitle
             title="THE UNIVERSE <br/>POWERED BY ZENT"
-            containerClass="mt-5 section-title items-start text-left"
+            containerClass="mt-5 section-title items-start !pl-0"
             left={true}
           />
           <Button
             id="realm-button"
             title="ENTER VAULT"
-            containerClass="ml-10 md:ml-0 changing-btn"
+            containerClass="mt-10 mx-auto sm:mx-0 lg:ml-10 md:ml-0 changing-btn-story"
           />
         </div>
       </div>
 
       {/* Text Blocks */}
-      <div className="flex flex-col gap-10 pt-16">
+      <div className="mt-auto flex flex-col gap-10 mb-20">
         {texts.map((text, index) => (
           <div key={index}>
             {/* Header */}
