@@ -105,9 +105,9 @@ const Features = () => {
             rotateX: 0,
             y: 0,
             opacity: 1,
-            duration: 0.6,
+            duration: 0.5,
             delay: index * 0.1,
-            ease: "back.out(1.2)",
+            ease: "power1.out",
           });
           animatedCardsRef.current.add(index);
         },

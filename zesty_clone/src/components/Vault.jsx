@@ -222,24 +222,24 @@ const Vault = () => {
       {/* Title Section */}
       <div
         ref={titleContainerRef}
-        className="flex flex-col text-left w-full justify-start py-10 z-10"
+        className="flex flex-col text-left w-full justify-start md:py-10 z-10"
       >
         <div ref={textRef}>
           <AnimatedTitle
             title="THE UNIVERSE <br/>POWERED BY ZENT"
-            containerClass="mt-5 section-title items-start !pl-0"
+            containerClass="mt-5 !text-3xl md:!text-7xl section-title items-start !pl-0"
             left={true}
           />
           <Button
             id="realm-button"
             title="ENTER VAULT"
-            containerClass="mt-10 mx-auto sm:mx-0 lg:ml-10 md:ml-0 changing-btn-story"
+            containerClass="mt-10 mx-auto sm:mx-0 changing-btn-story"
           />
         </div>
       </div>
 
       {/* Text Blocks and Video Container */}
-      <div className="flex flex-col lg:flex-row justify-between gap-10 my-20">
+      <div className="flex flex-col lg:flex-row justify-between gap-10 my-0 md:my-20">
         {/* Left side - Text blocks */}
         <div className="flex flex-col gap-10 flex-1 mt-56">
           {texts.map((text, index) => (

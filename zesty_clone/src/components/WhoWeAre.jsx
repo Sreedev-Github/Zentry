@@ -29,12 +29,12 @@ const WhoWeAre = () => {
   return (
     <div
       ref={sectionRef}
-      className="changing-bg WhoWeAre flex flex-col items-center justify-center py-52"
+      className="changing-bg WhoWeAre flex flex-col items-center justify-center py-16 sm:py-24 md:py-36 lg:py-52"
     >
-      <p className="font-robert-regular text-sm">WHO WE ARE</p>
+      <p className="font-robert-regular text-xs sm:text-sm">WHO WE ARE</p>
       <AnimatedTitle
         title="We're b<b>u</b>ilding <br/> a new [pulse] realit<b>y</b> <br/> that rew<b>a</b>rds <br/> play<b>e</b>rs [pulse] and <br/> e<b>m</b>powersc<br/> hu<b>m</b>ans & AI <br/> to [pulse] thri<b>v</b>e"
-        containerClass="mt-20 !text-black !text-[9rem] !font-weight-900 !leading-[0.82] tracking-[-0.01em]"
+        containerClass="mt-10 sm:mt-12 md:mt-16 lg:mt-20 !text-black !text-4xl sm:!text-5xl md:!text-7xl lg:!text-8xl xl:!text-9xl !font-weight-900 !leading-[0.82] tracking-[-0.01em]"
         squares={true}
         left
       />

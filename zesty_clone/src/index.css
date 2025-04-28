@@ -291,10 +291,25 @@ body {
 /* Update these important styles for proper z-index layering */
 .pulse-square {
   position: relative;
+  z-index: 10;
+}
+
+.pulse-square + div {
   z-index: 50;
 }
 
 .animated-word {
   position: relative;
-  z-index: 10;
+  z-index: 5; /* Lower than the pulse square */
+}
+
+.pulse-image-container {
+  isolation: isolate;
+  z-index: 999;
+}
+
+/* Make sure parent elements don't clip the images */
+.animated-title,
+.animated-word {
+  overflow: visible !important;
 }
