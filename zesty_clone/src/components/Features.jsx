@@ -1,6 +1,10 @@
 import React from "react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { TiLocationArrow } from "react-icons/ti";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const BentoTilt = ({ children, className }) => {
   const [transformStyle, setTransformStyle] = useState("");
@@ -67,6 +71,65 @@ const BentoCard = ({ src, title, description }) => {
 };
 
 const Features = () => {
+  const featureCardsRef = useRef([]);
+  const animatedCardsRef = useRef(new Set()); // Track which cards have been animated
+
+  useEffect(() => {
+    // Reset animations when component mounts
+    const resetCards = () => {
+      featureCardsRef.current.forEach((card) => {
+        if (!card) return;
+        gsap.set(card, {
+          rotateX: -10,
+          y: 50,
+          opacity: 0,
+          transformOrigin: "center top",
+          transformPerspective: 1000,
+        });
+      });
+      animatedCardsRef.current.clear();
+    };
+
+    resetCards();
+
+    // Create ScrollTriggers for each card
+    featureCardsRef.current.forEach((card, index) => {
+      if (!card) return;
+
+      ScrollTrigger.create({
+        trigger: card,
+        start: "top bottom-=150",
+        onEnter: () => {
+          // Only animate when scrolling down (card enters from bottom)
+          gsap.to(card, {
+            rotateX: 0,
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            delay: index * 0.1,
+            ease: "back.out(1.2)",
+          });
+          animatedCardsRef.current.add(index);
+        },
+        onLeaveBack: () => {
+          // Reset when scrolling up (card leaves from bottom)
+          if (animatedCardsRef.current.has(index)) {
+            gsap.set(card, {
+              rotateX: -10,
+              y: 50,
+              opacity: 0,
+            });
+            animatedCardsRef.current.delete(index);
+          }
+        },
+      });
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
+
   return (
     <section className="bg-black pb-52">
       <div className="container mx-auto px-3 md:px-10">
@@ -79,69 +142,104 @@ const Features = () => {
             agentic AI and blockchain lead the new economic paradigm.
           </p>
         </div>
-        <BentoTilt className="border-hsla relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]">
-          <BentoCard
-            src="videos/feature-1.mp4"
-            title={
-              <>
-                radia<b>n</b>t
-              </>
-            }
-            description="The game of games app transforming moments across Web2 & Web3 titles into rewards"
-          />
-        </BentoTilt>
-        <div className="grid h-[135vh] grid-cols-2 grid-rows-3 gap-7">
-          <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 md:row-span-2">
-            <BentoCard
-              src="videos/feature-2.mp4"
-              title={
-                <>
-                  zig<b>m</b>a
-                </>
-              }
-              description="The NFT collection merging Zentry’s IP, AI, and gaming—pushing the boundaries of NFT innovation."
-            />
-          </BentoTilt>
-          <BentoTilt className="bento-titl_1 row-span-1 ms-32 md:col-span-1 md:ms-0">
-            <BentoCard
-              src="videos/feature-3.mp4"
-              title={
-                <>
-                  N<b>E</b>XUS
-                </>
-              }
-              description="The metagame portal uniting humans & AI to play, complete and earn."
-            />
-          </BentoTilt>
-          <BentoTilt className="bento-titl_1 me-14 md:col-span-1 md:me-0">
-            <BentoCard
-              src="videos/feature-4.mp4"
-              title={
-                <>
-                  AZ<b>U</b>L
-                </>
-              }
-              description="The agents of agents elevating agentic AI experience to be  more fun and productive"
-            />
-          </BentoTilt>
-          <BentoTilt className="bento-tilt_2">
-            <div className="flex size-full flex-col justify-between bg-violet-300 p-5">
-              <h1 className="bento-title special-font text-black max-w-64">
-                M<b>o</b>re co<b>m</b>ing s<b>o</b>on
-              </h1>
-              <TiLocationArrow className="m-5 scale-[5] self-end" />
-            </div>
-          </BentoTilt>
 
-          <BentoTilt className="bento-tilt_2">
-            <video
-              src="videos/feature-5.mp4"
-              loop
-              muted
-              autoPlay
-              className="size-full object-cover object-center"
+        <div
+          ref={(el) => (featureCardsRef.current[0] = el)}
+          className="border-hsla relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]"
+        >
+          <BentoTilt className="h-full w-full">
+            <BentoCard
+              src="videos/feature-1.mp4"
+              title={
+                <>
+                  radia<b>n</b>t
+                </>
+              }
+              description="The game of games app transforming moments across Web2 & Web3 titles into rewards"
             />
           </BentoTilt>
+        </div>
+
+        <div className="grid h-[135vh] grid-cols-2 grid-rows-3 gap-7">
+          <div
+            ref={(el) => (featureCardsRef.current[1] = el)}
+            className="bento-tilt_1 row-span-1 md:col-span-1 md:row-span-2"
+          >
+            <BentoTilt className="h-full w-full">
+              <BentoCard
+                src="videos/feature-2.mp4"
+                title={
+                  <>
+                    zig<b>m</b>a
+                  </>
+                }
+                description="The NFT collection merging Zentry's IP, AI, and gaming—pushing the boundaries of NFT innovation."
+              />
+            </BentoTilt>
+          </div>
+
+          <div
+            ref={(el) => (featureCardsRef.current[2] = el)}
+            className="bento-titl_1 row-span-1 ms-32 md:col-span-1 md:ms-0"
+          >
+            <BentoTilt className="h-full w-full">
+              <BentoCard
+                src="videos/feature-3.mp4"
+                title={
+                  <>
+                    N<b>E</b>XUS
+                  </>
+                }
+                description="The metagame portal uniting humans & AI to play, complete and earn."
+              />
+            </BentoTilt>
+          </div>
+
+          <div
+            ref={(el) => (featureCardsRef.current[3] = el)}
+            className="bento-titl_1 me-14 md:col-span-1 md:me-0"
+          >
+            <BentoTilt className="h-full w-full">
+              <BentoCard
+                src="videos/feature-4.mp4"
+                title={
+                  <>
+                    AZ<b>U</b>L
+                  </>
+                }
+                description="The agents of agents elevating agentic AI experience to be more fun and productive"
+              />
+            </BentoTilt>
+          </div>
+
+          <div
+            ref={(el) => (featureCardsRef.current[4] = el)}
+            className="bento-tilt_2"
+          >
+            <BentoTilt className="h-full w-full">
+              <div className="flex size-full flex-col justify-between bg-violet-300 p-5">
+                <h1 className="bento-title special-font text-black max-w-64">
+                  M<b>o</b>re co<b>m</b>ing s<b>o</b>on
+                </h1>
+                <TiLocationArrow className="m-5 scale-[5] self-end" />
+              </div>
+            </BentoTilt>
+          </div>
+
+          <div
+            ref={(el) => (featureCardsRef.current[5] = el)}
+            className="bento-tilt_2"
+          >
+            <BentoTilt className="h-full w-full">
+              <video
+                src="videos/feature-5.mp4"
+                loop
+                muted
+                autoPlay
+                className="size-full object-cover object-center"
+              />
+            </BentoTilt>
+          </div>
         </div>
       </div>
     </section>

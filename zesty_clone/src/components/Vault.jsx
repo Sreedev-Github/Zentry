@@ -88,7 +88,20 @@ const Vault = () => {
 
     // Background color change logic
     const handleScroll = () => {
+      const whoWeAreSection = document.querySelector(".WhoWeAre");
+
+      // Check if we've scrolled past the Vault section into the WhoWeAre section
+      if (whoWeAreSection && ScrollTrigger.isInViewport(whoWeAreSection, 0.1)) {
+        // WhoWeAre section will handle its own background color
+        return;
+      }
+
+      // Get the position of the Vault container
+      const vaultRect = containerRef.current.getBoundingClientRect();
+      const scrolledPastVault = vaultRect.bottom < 0;
+
       if (textRef.current && ScrollTrigger.isInViewport(textRef.current, 0.5)) {
+        // When Vault title is in view - yellow background
         gsap.to(".changing-bg", { backgroundColor: "#EDFF66", duration: 0.4 });
         gsap.to(".changing-text-story", { color: "black", duration: 0.4 });
         gsap.to(".changing-btn-story", {
@@ -96,13 +109,16 @@ const Vault = () => {
           backgroundColor: "black",
           duration: 0.4,
         });
-        // Target the specific animated words in this section
         gsap.to(".section-title .animated-word", {
           color: "black",
           duration: 0.4,
           overwrite: "auto",
         });
+      } else if (scrolledPastVault) {
+        // When we've scrolled past Vault section (text 03) - maintain yellow
+        gsap.to(".changing-bg", { backgroundColor: "#EDFF66", duration: 0.4 });
       } else {
+        // Only when approaching Vault from above - black background
         gsap.to(".changing-bg", { backgroundColor: "black", duration: 0.4 });
         gsap.to(".changing-text-story", { color: "white", duration: 0.4 });
         gsap.to(".changing-btn-story", {
@@ -110,7 +126,6 @@ const Vault = () => {
           backgroundColor: "white",
           duration: 0.4,
         });
-        // Target the specific animated words in this section
         gsap.to(".section-title .animated-word", {
           color: "white",
           duration: 0.4,

@@ -7,7 +7,7 @@ import Story from "./components/Story";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Vault from "./components/Vault";
-import NewSection from "./components/NewSection";
+import WhoWeAre from "./components/WhoWeAre";
 
 const App = () => {
   return (
@@ -18,7 +18,7 @@ const App = () => {
       <Features />
       <Story />
       <Vault />
-      <NewSection />
+      <WhoWeAre />
       <Contact />
       <Footer />
     </main>
