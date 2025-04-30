@@ -7,7 +7,6 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const BentoTilt = ({ children, className }) => {
-  const [transformStyle, setTransformStyle] = useState("");
   const itemRef = useRef(null);
 
   const handleMouseMove = (event) => {
@@ -19,25 +18,38 @@ const BentoTilt = ({ children, className }) => {
     const relativeX = (event.clientX - left) / width;
     const relativeY = (event.clientY - top) / height;
 
-    const tiltX = (relativeY - 0) * 5;
-    const tiltY = (relativeX - 0.5) * -5;
+    // Increase these values for more pronounced tilt
+    const tiltX = (relativeY - 0.5) * 5;
+    const tiltY = (relativeX - 0.5) * 5;
 
-    const newTransform = `perspective(700px) rotateX(${tiltX}deg)    rotateY(${tiltY}deg) scale3d(0.95, 0.95, 0.95)`;
-
-    setTransformStyle(newTransform);
+    // Apply transform directly using GSAP
+    gsap.to(itemRef.current, {
+      transform: `perspective(1000px) rotateX(${-tiltX}deg) rotateY(${tiltY}deg) scale3d(0.95, 0.95, 0.95)`,
+      duration: 0.3,
+      ease: "power2.out",
+      overwrite: true,
+    });
   };
 
   const handleMouseLeave = () => {
-    setTransformStyle("");
+    gsap.to(itemRef.current, {
+      transform:
+        "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
+      duration: 1,
+      ease: "power2.inOut",
+    });
   };
 
   return (
     <div
-      className={className}
+      className={`border-hsla rounded-lg ${className}`}
       ref={itemRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ transform: transformStyle }}
+      style={{
+        transformStyle: "preserve-3d",
+        transition: "box-shadow 0.3s ease",
+      }}
     >
       {children}
     </div>
@@ -52,7 +64,7 @@ const BentoCard = ({ src, title, description }) => {
         loop
         muted
         autoPlay
-        className="absolute top-0 left-0 size-full object-cover object-center"
+        className="absolute top-0 left-0 size-full object-cover object-center rounded-lg" // Removed border-hsla
       />
       <div className="relative z-10 flex size-full flex-col justify-between p-5 text-blue-50">
         <div>
@@ -145,7 +157,7 @@ const Features = () => {
 
         <div
           ref={(el) => (featureCardsRef.current[0] = el)}
-          className="border-hsla relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]"
+          className="relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]"
         >
           <BentoTilt className="h-full w-full">
             <BentoCard

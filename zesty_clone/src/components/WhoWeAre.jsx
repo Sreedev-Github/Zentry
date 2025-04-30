@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import AnimatedTitle from "./AnimatedTitle";
+import Button from "./Button";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,6 +39,12 @@ const WhoWeAre = () => {
         squares={true}
         left
       />
+
+      <p className="font-circular-web text-black max-w-screen-sm text-sm md:text-xl mt-10 mb-20 text-center">
+        Zentry envisions a future where players, emerging tech, and a new
+        economy unite at the convergence of gaming and AI.
+      </p>
+      <Button title="DISCOVER WHO WE ARE" />
     </div>
   );
 };
