@@ -161,7 +161,7 @@ const PulseImages = ({
   return (
     <>
       <span
-        className="animated-word pulse-square inline-flex items-center justify-center w-4 h-4 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 bg-black rounded-sm md:rounded-lg cursor-pointer"
+        className="animated-title-square pulse-square inline-flex items-center justify-center w-4 h-4 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-sm md:rounded-lg cursor-pointer"
         onClick={handlePulseClick}
         onMouseEnter={() => !isMobile && handleMouseEnter()}
         onMouseLeave={() => !isMobile && handleMouseLeave()}

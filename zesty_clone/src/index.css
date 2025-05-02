@@ -106,6 +106,20 @@ body {
     @apply text-black;
     will-change: background-color, color;
   }
+  .who-we-are-title {
+    @apply !text-black;
+    will-change: color;
+  }
+  .who-we-are-text {
+    @apply text-black;
+    will-change: color;
+  }
+
+  .who-we-are-button {
+    @apply bg-black text-violet-50;
+    will-change: background-color, color;
+    transition: background-color 0.1s ease, color 0.1s ease;
+  }
 
   .bento-tilt_1 {
     @apply relative col-span-2 overflow-hidden rounded-md transition-transform duration-300 ease-out;
@@ -288,10 +302,17 @@ body {
   }
 }
 
+/* Add specific styles for white pulse squares */
+.white-pulse-square {
+  background-color: white !important;
+}
+
 /* Update these important styles for proper z-index layering */
 .pulse-square {
   position: relative;
   z-index: 10;
+  /* Allow transition for color changes */
+  transition: background-color 0.3s ease;
 }
 
 .pulse-square + div {
@@ -312,4 +333,14 @@ body {
 .animated-title,
 .animated-word {
   overflow: visible !important;
+}
+
+/* Add new class-based color styles */
+.animated-title-square {
+  @apply bg-black;
+  transition: background-color 0.4s ease;
+}
+
+.animated-title-square.white {
+  background-color: white !important;
 }

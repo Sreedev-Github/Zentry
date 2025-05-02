@@ -88,17 +88,24 @@ const Vault = () => {
 
     // Background color change logic
     const handleScroll = () => {
-      const whoWeAreSection = document.querySelector(".WhoWeAre");
+      const whoWeAreSection = document.querySelector("#WhoWeAre");
+      const newSection = document.querySelector("#NewSection");
 
-      // Check if we've scrolled past the Vault section into the WhoWeAre section
-      if (whoWeAreSection && ScrollTrigger.isInViewport(whoWeAreSection, 0.1)) {
-        // WhoWeAre section will handle its own background color
+      // Don't control background if either of these sections are in viewport
+      if (
+        (whoWeAreSection && ScrollTrigger.isInViewport(whoWeAreSection, 0.1)) ||
+        (newSection && ScrollTrigger.isInViewport(newSection, 0.1))
+      ) {
+        // Let other sections handle their own background color
         return;
       }
 
       // Get the position of the Vault container
       const vaultRect = containerRef.current.getBoundingClientRect();
       const scrolledPastVault = vaultRect.bottom < 0;
+
+      // Check if we are near or within the Vault section
+      const nearVault = vaultRect.top < window.innerHeight;
 
       if (textRef.current && ScrollTrigger.isInViewport(textRef.current, 0.5)) {
         // When Vault title is in view - yellow background
@@ -114,13 +121,13 @@ const Vault = () => {
           duration: 0.4,
           overwrite: "auto",
         });
-      } else if (scrolledPastVault) {
-        // When we've scrolled past Vault section (text 03) - maintain yellow
-        gsap.to(".changing-bg", { backgroundColor: "#EDFF66", duration: 0.4 });
-      } else {
+      } else if (scrolledPastVault && nearVault) {
+        // Only maintain yellow when we're just past Vault but not too far
+        gsap.to(".changing-bg", { backgroundColor: "#EDFF66", duration: 0.3 });
+      } else if (!scrolledPastVault) {
         // Only when approaching Vault from above - black background
-        gsap.to(".changing-bg", { backgroundColor: "black", duration: 0.4 });
-        gsap.to(".changing-text-story", { color: "white", duration: 0.4 });
+        gsap.to(".changing-bg", { backgroundColor: "black", duration: 0.3 });
+        gsap.to(".changing-text-story", { color: "white", duration: 0.3 });
         gsap.to(".changing-btn-story", {
           color: "black",
           backgroundColor: "white",

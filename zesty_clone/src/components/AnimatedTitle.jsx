@@ -192,7 +192,6 @@ const AnimatedTitle = ({
                         isMobile={isMobile}
                         activeImage={activeImage}
                         setActiveImage={setActiveImage}
-                        handleSquareInteraction={() => {}} // Not needed anymore as PulseImages handles this directly
                       />
                     </div>
                   )}

@@ -125,7 +125,7 @@ const Hero = () => {
             loop
             muted
             id="next-video"
-            className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
+            className="absolute-center invisible absolute z-20 size-64 object-cover object-center border-black border-2"
             onLoadedData={handleVideoLoad}
           />
           <video

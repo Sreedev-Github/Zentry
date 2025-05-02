@@ -8,6 +8,7 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Vault from "./components/Vault";
 import WhoWeAre from "./components/WhoWeAre";
+import NewSection from "./components/NewSection";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <Story />
       <Vault />
       <WhoWeAre />
+      <NewSection />
       <Contact />
       <Footer />
     </main>
