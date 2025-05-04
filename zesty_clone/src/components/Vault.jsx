@@ -224,17 +224,17 @@ const Vault = () => {
   return (
     <div
       ref={containerRef}
-      className="changing-bg flex flex-col w-full relative min-h-screen overflow-hidden px-6 md:px-[4.5rem]"
+      className="changing-bg flex flex-col justify-between w-full min-h-screen overflow-hidden px-6 md:px-[4.5rem]"
     >
-      {/* Title Section */}
+      {/* Top Section: Title and Button */}
       <div
         ref={titleContainerRef}
-        className="flex flex-col text-left w-full justify-start md:py-10 z-10"
+        className="flex flex-col text-left w-full justify-start py-10 z-10"
       >
         <div ref={textRef}>
           <AnimatedTitle
             title="THE UNIVERSE <br/>POWERED BY ZENT"
-            containerClass="mt-5 !text-3xl md:!text-7xl section-title items-start !pl-0"
+            containerClass=" !text-3xl md:!text-7xl section-title items-start !pl-0"
             left={true}
           />
           <Button
@@ -245,10 +245,10 @@ const Vault = () => {
         </div>
       </div>
 
-      {/* Text Blocks and Video Container */}
-      <div className="flex flex-col lg:flex-row justify-between gap-10 my-0 md:my-20">
-        {/* Left side - Text blocks */}
-        <div className="flex flex-col gap-10 flex-1 mt-56">
+      {/* Bottom Section: Text Blocks and Video */}
+      <div className="flex-1 flex flex-col lg:flex-row items-start lg:items-end gap-10 my-10 md:my-20">
+        {/* Left Side: Text Blocks */}
+        <div className="flex flex-col gap-10 flex-1">
           {texts.map((text, index) => (
             <div key={index}>
               {/* Header */}
@@ -282,21 +282,20 @@ const Vault = () => {
           ))}
         </div>
 
-        {/* Right side - Video */}
-        <div className="hidden md:flex items-center justify-center mt-10 lg:w-1/3">
+        {/* Right Side: Video (Only on lg and above) */}
+        <div className="hidden lg:flex items-center justify-center w-full lg:w-1/3 lg:self-center">
           <video
             ref={videoRef}
             src={`videos/symbol_${activeText + 1}@lg.webm`}
             autoPlay
             loop
             muted
-            className="w-full max-w-[500px]"
+            className="w-full max-w-[500px] object-contain"
             playsInline
             onError={(e) => console.error("Video loading error:", e)}
           ></video>
         </div>
       </div>
-      {/* Background Video */}
     </div>
   );
 };

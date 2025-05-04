@@ -175,7 +175,7 @@ const Features = () => {
         <div className="grid h-[135vh] grid-cols-2 grid-rows-3 gap-7">
           <div
             ref={(el) => (featureCardsRef.current[1] = el)}
-            className="bento-tilt_1 row-span-1 md:col-span-1 md:row-span-2"
+            className="bento-tilt_1 row-span-1 col-span-2 md:col-span-1 md:row-span-2"
           >
             <BentoTilt className="h-full w-full">
               <BentoCard
@@ -192,7 +192,7 @@ const Features = () => {
 
           <div
             ref={(el) => (featureCardsRef.current[2] = el)}
-            className="bento-titl_1 row-span-1 ms-32 md:col-span-1 md:ms-0"
+            className="bento-titl_1 row-span-1 col-span-1"
           >
             <BentoTilt className="h-full w-full">
               <BentoCard
@@ -209,7 +209,7 @@ const Features = () => {
 
           <div
             ref={(el) => (featureCardsRef.current[3] = el)}
-            className="bento-titl_1 me-14 md:col-span-1 md:me-0"
+            className="bento-titl_1 col-span-1"
           >
             <BentoTilt className="h-full w-full">
               <BentoCard
@@ -226,7 +226,7 @@ const Features = () => {
 
           <div
             ref={(el) => (featureCardsRef.current[4] = el)}
-            className="bento-tilt_2"
+            className="bento-tilt_2 col-span-2 md:col-span-1"
           >
             <BentoTilt className="h-full w-full">
               <div className="flex size-full flex-col justify-between bg-violet-300 p-5">
@@ -240,7 +240,7 @@ const Features = () => {
 
           <div
             ref={(el) => (featureCardsRef.current[5] = el)}
-            className="bento-tilt_2"
+            className="bento-tilt_2 col-span-2 md:col-span-1"
           >
             <BentoTilt className="h-full w-full">
               <video

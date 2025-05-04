@@ -68,7 +68,7 @@ const WhoWeAre = () => {
     <div
       ref={sectionRef}
       id="WhoWeAre"
-      className="changing-bg WhoWeAre flex flex-col items-center justify-center sm:py-24 md:py-36 lg:py-40"
+      className="changing-bg WhoWeAre flex flex-col items-center justify-center sm:py-24 md:py-36 lg:py-40 border-none"
     >
       <p className="font-robert-regular text-xs sm:text-sm">WHO WE ARE</p>
       <AnimatedTitle

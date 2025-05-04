@@ -344,3 +344,8 @@ body {
 .animated-title-square.white {
   background-color: white !important;
 }
+
+.contact-title .animated-word {
+  color: white !important;
+  font-size: 5rem;
+}
