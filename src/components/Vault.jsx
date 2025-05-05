@@ -90,8 +90,29 @@ const Vault = () => {
     const handleScroll = () => {
       const whoWeAreSection = document.querySelector("#WhoWeAre");
       const newSection = document.querySelector("#NewSection");
+      const vaultSection = containerRef.current;
 
-      // Don't control background if either of these sections are in viewport
+      // Get the current scroll position and viewport dimensions
+      const scrollY = window.scrollY;
+      const viewportHeight = window.innerHeight;
+
+      // Calculate the vault section's position
+      const vaultRect = vaultSection.getBoundingClientRect();
+      const vaultTop = scrollY + vaultRect.top;
+      const vaultBottom = scrollY + vaultRect.bottom;
+
+      // Only apply color changes if we're within a certain range of the Vault section
+      // (within 1 viewport height above or below)
+      const nearVault =
+        scrollY >= vaultTop - viewportHeight &&
+        scrollY <= vaultBottom + viewportHeight;
+
+      if (!nearVault) {
+        // If we're not near the Vault section, don't affect background colors
+        return;
+      }
+
+      // Additional check for WhoWeAre and NewSection sections
       if (
         (whoWeAreSection && ScrollTrigger.isInViewport(whoWeAreSection, 0.1)) ||
         (newSection && ScrollTrigger.isInViewport(newSection, 0.1))
@@ -100,13 +121,7 @@ const Vault = () => {
         return;
       }
 
-      // Get the position of the Vault container
-      const vaultRect = containerRef.current.getBoundingClientRect();
-      const scrolledPastVault = vaultRect.bottom < 0;
-
-      // Check if we are near or within the Vault section
-      const nearVault = vaultRect.top < window.innerHeight;
-
+      // Check if Vault title is in viewport
       if (textRef.current && ScrollTrigger.isInViewport(textRef.current, 0.5)) {
         // When Vault title is in view - yellow background
         gsap.to(".changing-bg", { backgroundColor: "#EDFF66", duration: 0.4 });
@@ -121,10 +136,10 @@ const Vault = () => {
           duration: 0.4,
           overwrite: "auto",
         });
-      } else if (scrolledPastVault && nearVault) {
+      } else if (vaultRect.bottom < 0 && vaultRect.bottom > -viewportHeight) {
         // Only maintain yellow when we're just past Vault but not too far
         gsap.to(".changing-bg", { backgroundColor: "#EDFF66", duration: 0.3 });
-      } else if (!scrolledPastVault) {
+      } else if (vaultRect.top > 0) {
         // Only when approaching Vault from above - black background
         gsap.to(".changing-bg", { backgroundColor: "black", duration: 0.3 });
         gsap.to(".changing-text-story", { color: "white", duration: 0.3 });
